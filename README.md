@@ -60,7 +60,8 @@ cok-modlu-tabela/
 │   └── reports/              # İstatistiksel özet tablolar ve vize analiz raporları
 ├── src/
 │   ├── __init__.py           # Paket dışa aktarımları
-│   └── config.py             # Dizin yolları, sabitler, 4 ana sınıf ve 16 GTSRB kataloğu
+│   ├── config.py             # Dizin yolları, sabitler, 4 ana sınıf ve 16 GTSRB kataloğu
+│   └── data_loader.py        # GTSRB indirme/üretme, 1:1 modalite eşleştirme ve doğrulama
 ├── .gitignore
 ├── requirements.txt
 └── README.md
@@ -71,7 +72,7 @@ cok-modlu-tabela/
 ## 3. Vize Aşaması Çalışma Planı
 
 - [x] **Adım 1:** Proje klasör yapısının oluşturulması, problem tanımı ve multimodal sınıf/katalog yapılandırması ([src/config.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/config.py))
-- [ ] **Adım 2:** Veri setini indirme/yükleme ve görsel + metin modalitelerini ortak Pandas DataFrame'de eşleştirme modülü
+- [x] **Adım 2:** Veri setini indirme/yükleme, görsel + metin modalitelerini ortak `sample_id` anahtarı ile Pandas DataFrame'de eşleştirme ve bütünlük doğrulama modülü ([src/data_loader.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/data_loader.py))
 - [ ] **Adım 3:** Görsel yeniden boyutlandırma/normalizasyon ve Türkçe metin temizleme/tokenizasyon hazırlığı modülü
 - [ ] **Adım 4:** Keşifsel Veri Analizi (EDA) ile 8–10+ özgün grafik ve bilimsel yorumların üretilmesi + Stratified Train/Val/Test bölme stratejisi
 - [ ] **Adım 5:** Tüm adımları birleştiren Jupyter Notebook ve Vize Analiz Raporu
