@@ -54,10 +54,19 @@ cok-modlu-tabela/
 ├── data/
 │   ├── raw/                  # İndirilen ham GTSRB verileri ve ham etiket tabloları
 │   └── processed/            # Eşleştirilmiş multimodal DataFrame, ön işlenmiş görseller ve split dosyaları
-├── notebooks/                # Adım adım keşifsel veri analizi (EDA) ve raporlama defterleri
+├── notebooks/
+│   └── 01_multimodal_vize_analiz.ipynb   # Çalıştırılmış tam vize analiz defteri (10 gömülü grafik)
 ├── outputs/
-│   ├── figures/              # EDA sürecinde üretilen 8-10+ görsel grafik çıktısı
-│   └── reports/              # İstatistiksel özet tablolar ve vize analiz raporları
+│   ├── figures/              # EDA sürecinde üretilen 10 bilimsel grafik (fig01-fig10)
+│   └── reports/
+│       ├── Vize_Teknik_Raporu.md         # 8 değerlendirme kriterini kapsayan akademik teknik rapor
+│       ├── step2_validation_report.json
+│       ├── step3_before_after_summary.csv
+│       ├── step3_preprocessing_report.json
+│       ├── step4_statistical_summary.csv
+│       ├── step4_eda_report.json
+│       ├── step4_split_and_model_prep_report.json
+│       └── vocabulary.json
 ├── src/
 │   ├── __init__.py           # Paket dışa aktarımları
 │   ├── config.py             # Dizin yolları, sabitler, 4 ana sınıf ve 16 GTSRB kataloğu
@@ -78,4 +87,25 @@ cok-modlu-tabela/
 - [x] **Adım 2:** Veri setini indirme/yükleme, görsel + metin modalitelerini ortak `sample_id` anahtarı ile Pandas DataFrame'de eşleştirme ve bütünlük doğrulama modülü ([src/data_loader.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/data_loader.py))
 - [x] **Adım 3:** Veri temizleme, görsel boyutlandırma/CLAHE/normalizasyon, Türkçe metin temizleme/tokenizasyon hazırlığı ve öncesi–sonrası karşılaştırma modülü ([src/preprocessing.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/preprocessing.py))
 - [x] **Adım 4:** Keşifsel Veri Analizi (EDA) ile toplam 10 özgün grafik + bilimsel yorumlar ([src/eda.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/eda.py)) ve sızıntısız Stratified Train/Val/Test + 5-Fold bölme / tensör hazırlığı ([src/splitter.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/splitter.py))
-- [ ] **Adım 5:** Tüm adımları birleştiren Jupyter Notebook ve Vize Analiz Raporu
+- [x] **Adım 5:** Çalıştırılmış Jupyter Notebook ([01_multimodal_vize_analiz.ipynb](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/notebooks/01_multimodal_vize_analiz.ipynb)) ve Akademik Vize Teknik Raporu ([Vize_Teknik_Raporu.md](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/outputs/reports/Vize_Teknik_Raporu.md))
+
+---
+
+## 4. Çalıştırma ve Yeniden Üretilebilirlik Talimatları
+
+```bash
+# 1. Bağımlılıkları yükle
+pip install -r requirements.txt
+
+# 2. Veri toplama, 1:1 modalite eşleştirme ve bütünlük kontrolü
+python -m src.data_loader --overwrite
+
+# 3. Temizleme, 64x64 CLAHE/normalizasyon, Türkçe metin temizliği + Şekil 1-2
+python -m src.preprocessing
+
+# 4. İstatistiksel analizler ve keşifsel görselleştirmeler + Şekil 3-9
+python -m src.eda
+
+# 5. Katmanlı 70/15/15 + 5-Fold veri bölme ve model tensör hazırlığı + Şekil 10
+python -m src.splitter
+```

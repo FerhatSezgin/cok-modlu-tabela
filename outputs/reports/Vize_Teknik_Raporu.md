@@ -322,3 +322,4 @@ Etkileşimli kod yürütümü ve sunum gösterimi için çalıştırılmış def
 2. Baltrušaitis, T., Ahuja, C., & Morency, L. P. (2019). *Multimodal machine learning: A survey and taxonomy*. IEEE Transactions on Pattern Analysis and Machine Intelligence, 41(2), 423–443.
 3. Zuiderveld, K. (1994). *Contrast Limited Adaptive Histogram Equalization (CLAHE)*. Graphics Gems IV, Academic Press, 474–485.
 4. Pedregosa, F., et al. (2011). *Scikit-learn: Machine Learning in Python*. Journal of Machine Learning Research, 12, 2825–2830.
+
