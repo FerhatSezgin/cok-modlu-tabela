@@ -1,0 +1,38 @@
+# Python önbellek ve derleme dosyaları
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Sanal ortamlar
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebook geçici dosyaları
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Veri klasörleri (büyük ham ve işlenmiş veri setlerini hariç tut, .gitkeep'leri koru)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# İsteğe bağlı büyük çıktılar ve geçici dosyalar
+*.zip
+*.tar.gz
+*.pth
+*.pt
+*.h5
+.DS_Store
+Thumbs.db
+
+# IDE ve editör ayarları
+.vscode/
+.idea/
+*.swp
+*.swo
+
