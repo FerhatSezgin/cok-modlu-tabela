@@ -1,0 +1,29 @@
+{
+  "total_image_records": 2960,
+  "total_text_records": 2960,
+  "matched_multimodal_samples": 2960,
+  "duplicate_image_ids": 0,
+  "duplicate_text_ids": 0,
+  "unmatched_image_ids_count": 0,
+  "unmatched_text_ids_count": 0,
+  "corrupted_or_missing_images": 0,
+  "missing_or_empty_texts": 0,
+  "label_consistency_mismatches": 0,
+  "num_safety_classes": 4,
+  "safety_class_distribution": {
+    "Kritik_Yasak_ve_Hiz": 980,
+    "Oncelik_ve_Durdurma": 560,
+    "Tehlike_ve_Uyari": 705,
+    "Mecburi_Yon_ve_Bilgi": 715
+  },
+  "min_safety_class_count": 560,
+  "num_gtsrb_subclasses": 16,
+  "min_subclass_count": 160,
+  "course_criteria_check": {
+    "min_3_classes_ok": true,
+    "min_150_per_safety_class_ok": true,
+    "min_150_per_subclass_ok": true,
+    "min_500_total_samples_ok": true,
+    "one_to_one_matching_ok": true
+  }
+}
