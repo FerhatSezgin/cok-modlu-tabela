@@ -30,6 +30,11 @@ _LAZY_EXPORTS = {
     "preprocess_single_image": ("src.preprocessing", "preprocess_single_image"),
     "clean_turkish_text": ("src.preprocessing", "clean_turkish_text"),
     "run_step3_pipeline": ("src.preprocessing", "run_step3_pipeline"),
+    "compute_statistical_summary": ("src.eda", "compute_statistical_summary"),
+    "run_step4_eda_pipeline": ("src.eda", "run_step4_eda_pipeline"),
+    "create_stratified_splits": ("src.splitter", "create_stratified_splits"),
+    "prepare_model_ready_tensors": ("src.splitter", "prepare_model_ready_tensors"),
+    "run_step4_split_pipeline": ("src.splitter", "run_step4_split_pipeline"),
 }
 
 

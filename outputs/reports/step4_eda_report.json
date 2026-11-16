@@ -1,0 +1,41 @@
+{
+  "total_clean_samples": 2922,
+  "class_distribution_metrics": {
+    "imbalance_ratio": 1.77,
+    "min_subclass_count": 159,
+    "max_subclass_count": 222
+  },
+  "cross_modal_correlation_metrics": {
+    "max_abs_cross_modal_corr": 0.1824
+  },
+  "feature_space_silhouette_scores": {
+    "silhouette_visual": 0.197,
+    "silhouette_text": 0.2374,
+    "silhouette_fused": 0.211
+  },
+  "representativeness_and_bias_assessment": {
+    "strengths": [
+      "16 alt trafik işareti sınıfı ve 4 ana güvenlik kategorisinin tamamı >=150 örnek şartını sağlar.",
+      "Değişken çözünürlükler (20–112 px) ve farklı aydınlatma koşulları (gece/gölge/güneş) saha çeşitliliğini yansıtır.",
+      "Metin modalitesi her örneğin kendi görüntü kalitesi ve uyarı aciliyeti bağlamını bire bir taşır."
+    ],
+    "limitations_and_biases": [
+      "Veri seti kontrollü sentetik/simüle GTSRB geometrilerinden üretildiğinden aşırı kısmi tıkanma (ağaç dalı/çamur) ve gerçek arka plan karmaşası sınırlıdır.",
+      "Kritik_Yasak_ve_Hiz sınıfı 5 alt tabela içerdiğinden %33.1 ile en yüksek paya sahiptir (1.77:1 sınıf dengesizliği).",
+      "Türkçe uyarı metinleri şablon tabanlı çeşitlendirme içerdiğinden doğal insan konuşması veya serbest metin yazım hatalarını içermez."
+    ],
+    "mitigation_for_final_modeling": [
+      "Eğitimde Class-Weighted CrossEntropy kayıp fonksiyonu ve Stratified bölme kullanılacaktır.",
+      "Final aşamasında görsel kolda rastgele parlaklık/döndürme veri artırımı (Data Augmentation) uygulanacaktır."
+    ]
+  },
+  "generated_eda_figures": [
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig03_class_and_subclass_distribution.png",
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig04_image_modality_exploratory_analysis.png",
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig05_text_modality_exploratory_analysis.png",
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig06_multimodal_paired_samples_gallery.png",
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig07_cross_modal_complementarity_analysis.png",
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig08_multimodal_feature_space_projection.png",
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig09_outlier_and_anomaly_case_study.png"
+  ]
+}

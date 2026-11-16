@@ -285,7 +285,7 @@ def process_all_images(
     np.savez_compressed(
         PROCESSED_IMAGES_NPZ_PATH,
         images_uint8=tensor_uint8,
-        sample_ids=df["sample_id"].to_numpy(),
+        sample_ids=df["sample_id"].astype(str).to_numpy(dtype="U32"),
         safety_class_ids=df["safety_class_id"].to_numpy(dtype=np.int64),
         normalization_scale=np.array([255.0], dtype=np.float32),
     )
