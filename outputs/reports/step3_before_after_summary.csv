@@ -1,0 +1,10 @@
+Kategori,Metrik,Islem_Oncesi,Islem_Sonrasi,Etki_Aciklamasi
+Veri Miktarı,Eşleşmiş Örnek Sayısı,2960,2922,38 bozuk/boş/<20px kayıt elendi
+Etiket Kalitesi,Tutarsız Ham Etiket,10,0,SIGN_CATALOG referansına göre doğrulandı
+Görsel Modalite,Çözünürlük Aralığı (px),14px – 112px (Değişken),64x64 (Sabit),Bicubic interpolasyonla ortak CNN giriş boyutu sağlandı
+Görsel Modalite,Piksel Değer Aralığı,"[0, 255] uint8","[0.0, 1.0] float32",Tüm kanallar birim aralığa normalize edildi
+Görsel Modalite,Ortalama Parlaklık (0–255),113.46 ± 26.19,139.28 ± 24.00,LAB-CLAHE ile düşük ışık ve parlama dengelendi
+Görsel Modalite,Ortalama Kontrast Std,59.35 ± 12.78,61.39 ± 7.43,Yerel kenar ve rakam ayırt ediciliği artırıldı
+Metin Modalitesi,Log/Noktalama Gürültülü Kayıt (%),%41.51,%0.0,CAN-BUS etiketleri ve fazla noktalama temizlendi
+Metin Modalitesi,Ortalama Karakter Uzunluğu,255.1,224.6,Anlamsız ek/bağlaç temizliğiyle kompakt temsil
+Metin Modalitesi,Ortalama Kelime / Token Sayısı,33.7,31.6,Sözlük=537 token; max_len=40 kesme=%0.0

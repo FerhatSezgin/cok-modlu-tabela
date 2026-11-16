@@ -1,5 +1,8 @@
 """Trafik İşareti Multimodal Sürüş Güvenliği ve Kural İhlali Sınıflandırması paketi."""
 
+from importlib import import_module
+from typing import Any
+
 from src.config import (
     BASE_DIR,
     DATA_DIR,
@@ -15,14 +18,29 @@ from src.config import (
     SIGN_CATALOG,
     SPLIT_RATIOS,
 )
-from src.data_loader import (
-    build_images_dataframe,
-    build_multimodal_dataframe,
-    build_texts_dataframe,
-    download_or_prepare_raw_data,
-    run_step2_pipeline,
-    validate_multimodal_dataset,
-)
+
+_LAZY_EXPORTS = {
+    "download_or_prepare_raw_data": ("src.data_loader", "download_or_prepare_raw_data"),
+    "build_images_dataframe": ("src.data_loader", "build_images_dataframe"),
+    "build_texts_dataframe": ("src.data_loader", "build_texts_dataframe"),
+    "build_multimodal_dataframe": ("src.data_loader", "build_multimodal_dataframe"),
+    "validate_multimodal_dataset": ("src.data_loader", "validate_multimodal_dataset"),
+    "run_step2_pipeline": ("src.data_loader", "run_step2_pipeline"),
+    "clean_multimodal_dataset": ("src.preprocessing", "clean_multimodal_dataset"),
+    "preprocess_single_image": ("src.preprocessing", "preprocess_single_image"),
+    "clean_turkish_text": ("src.preprocessing", "clean_turkish_text"),
+    "run_step3_pipeline": ("src.preprocessing", "run_step3_pipeline"),
+}
+
+
+def __getattr__(name: str) -> Any:
+    """Alt modülleri ihtiyaç anında yükleyerek `python -m src.<modul>` uyarısını önler."""
+    if name in _LAZY_EXPORTS:
+        module_name, attr_name = _LAZY_EXPORTS[name]
+        module = import_module(module_name)
+        return getattr(module, attr_name)
+    raise AttributeError(f"module 'src' has no attribute {name!r}")
+
 
 __all__ = [
     "BASE_DIR",
@@ -38,11 +56,5 @@ __all__ = [
     "SPLIT_RATIOS",
     "SAFETY_CATEGORIES",
     "SIGN_CATALOG",
-    "download_or_prepare_raw_data",
-    "build_images_dataframe",
-    "build_texts_dataframe",
-    "build_multimodal_dataframe",
-    "validate_multimodal_dataset",
-    "run_step2_pipeline",
+    *_LAZY_EXPORTS.keys(),
 ]
-

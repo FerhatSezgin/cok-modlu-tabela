@@ -1,14 +1,22 @@
 {
-  "total_image_records": 2960,
-  "total_text_records": 2960,
+  "raw_image_records": 2993,
+  "unique_image_records": 2975,
+  "duplicate_image_ids": 18,
+  "raw_text_records": 2985,
+  "unique_text_records": 2971,
+  "duplicate_text_ids": 14,
   "matched_multimodal_samples": 2960,
-  "duplicate_image_ids": 0,
-  "duplicate_text_ids": 0,
-  "unmatched_image_ids_count": 0,
-  "unmatched_text_ids_count": 0,
-  "corrupted_or_missing_images": 0,
-  "missing_or_empty_texts": 0,
-  "label_consistency_mismatches": 0,
+  "unmatched_image_only_count": 15,
+  "unmatched_text_only_count": 11,
+  "total_unique_candidate_pairs": 2986,
+  "matching_rate_pct": 99.13,
+  "quality_issues_detected_for_step3": {
+    "corrupted_or_missing_images": 12,
+    "ultra_low_res_images_lt20px": 16,
+    "missing_or_empty_texts": 10,
+    "raw_label_consistency_mismatches": 10,
+    "noisy_log_tagged_texts": 1226
+  },
   "num_safety_classes": 4,
   "safety_class_distribution": {
     "Kritik_Yasak_ve_Hiz": 980,
@@ -24,6 +32,6 @@
     "min_150_per_safety_class_ok": true,
     "min_150_per_subclass_ok": true,
     "min_500_total_samples_ok": true,
-    "one_to_one_matching_ok": true
+    "one_to_one_key_uniqueness_ok": true
   }
 }

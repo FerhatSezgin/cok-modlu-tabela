@@ -1,0 +1,65 @@
+{
+  "cleaning_summary": {
+    "initial_matched_count": 2960,
+    "dropped_corrupted_images": 12,
+    "dropped_ultra_low_res_lt20px": 16,
+    "dropped_empty_texts": 10,
+    "total_dropped_after_match": 38,
+    "final_cleaned_count": 2922,
+    "labels_fixed_count": 10,
+    "flagged_outlier_count": 348,
+    "word_count_iqr_bounds": [
+      24.12,
+      43.12
+    ]
+  },
+  "image_preprocessing": {
+    "target_size": [
+      64,
+      64
+    ],
+    "interpolation": "INTER_CUBIC",
+    "contrast_enhancement": "LAB_L_Channel_CLAHE(clipLimit=2.0, tileGridSize=(4,4))",
+    "normalization": "[0.0, 1.0] float32",
+    "mean_brightness_before": 113.46,
+    "mean_brightness_after": 139.28,
+    "contrast_std_before": 59.35,
+    "contrast_std_after": 61.39,
+    "saved_tensor_archive": "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\data\\processed\\preprocessed_images_64x64.npz"
+  },
+  "text_preprocessing": {
+    "steps": [
+      "Regex ile [CAN_BUS_...] ve <...> log etiketlerinin silinmesi",
+      "Türkçe duyarlı küçük harfe dönüştürme (İ->i, I->ı)",
+      "Rakamlar korunarak noktalama ve özel karakter temizliği",
+      "Kural anlamını bozmayan Türkçe stop-word filtrelemesi",
+      "Boşluk tabanlı tokenizasyon ve max_seq_len=40 kontrolü"
+    ],
+    "noisy_text_ratio_before_pct": 41.51,
+    "noisy_text_ratio_after_pct": 0.0,
+    "mean_word_count_before": 33.7,
+    "mean_word_count_after": 31.57,
+    "vocabulary_size": 537,
+    "truncation_ratio_at_max_len_pct": 0.0,
+    "information_loss_assessment": "Stop-word ve sistem log temizliği metin uzunluğunu azaltmış, ancak hız sınırları (30/50/70) ve yasak/uyarı fiilleri korunduğu için sınıflandırma açısından kritik anlamsal bilgi kaybı oluşmamıştır."
+  },
+  "post_cleaning_criteria_check": {
+    "safety_class_distribution": {
+      "Kritik_Yasak_ve_Hiz": 968,
+      "Oncelik_ve_Durdurma": 548,
+      "Tehlike_ve_Uyari": 698,
+      "Mecburi_Yon_ve_Bilgi": 708
+    },
+    "min_safety_class_count": 548,
+    "min_subclass_count": 159,
+    "total_clean_samples": 2922,
+    "meets_min_3_classes": true,
+    "meets_150_per_safety_class": true,
+    "meets_150_per_subclass": true,
+    "meets_500_total": true
+  },
+  "generated_figures": [
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig01_image_preprocessing_before_after.png",
+    "C:\\Users\\ferhat\\Desktop\\github_projeler\\cok-modlu-tabela\\outputs\\figures\\fig02_text_and_cleaning_before_after.png"
+  ]
+}

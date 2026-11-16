@@ -61,7 +61,8 @@ cok-modlu-tabela/
 ├── src/
 │   ├── __init__.py           # Paket dışa aktarımları
 │   ├── config.py             # Dizin yolları, sabitler, 4 ana sınıf ve 16 GTSRB kataloğu
-│   └── data_loader.py        # GTSRB indirme/üretme, 1:1 modalite eşleştirme ve doğrulama
+│   ├── data_loader.py        # GTSRB indirme/üretme, 1:1 modalite eşleştirme ve doğrulama
+│   └── preprocessing.py      # Temizleme, 64x64 CLAHE/normalizasyon, Türkçe metin temizliği ve öncesi-sonrası
 ├── .gitignore
 ├── requirements.txt
 └── README.md
@@ -73,6 +74,6 @@ cok-modlu-tabela/
 
 - [x] **Adım 1:** Proje klasör yapısının oluşturulması, problem tanımı ve multimodal sınıf/katalog yapılandırması ([src/config.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/config.py))
 - [x] **Adım 2:** Veri setini indirme/yükleme, görsel + metin modalitelerini ortak `sample_id` anahtarı ile Pandas DataFrame'de eşleştirme ve bütünlük doğrulama modülü ([src/data_loader.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/data_loader.py))
-- [ ] **Adım 3:** Görsel yeniden boyutlandırma/normalizasyon ve Türkçe metin temizleme/tokenizasyon hazırlığı modülü
+- [x] **Adım 3:** Veri temizleme, görsel boyutlandırma/CLAHE/normalizasyon, Türkçe metin temizleme/tokenizasyon hazırlığı ve öncesi–sonrası karşılaştırma modülü ([src/preprocessing.py](file:///c:/Users/ferhat/Desktop/github_projeler/cok-modlu-tabela/src/preprocessing.py))
 - [ ] **Adım 4:** Keşifsel Veri Analizi (EDA) ile 8–10+ özgün grafik ve bilimsel yorumların üretilmesi + Stratified Train/Val/Test bölme stratejisi
 - [ ] **Adım 5:** Tüm adımları birleştiren Jupyter Notebook ve Vize Analiz Raporu
