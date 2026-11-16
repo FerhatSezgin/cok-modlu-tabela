@@ -57,9 +57,11 @@ cok-modlu-tabela/
 ├── notebooks/
 │   └── 01_multimodal_vize_analiz.ipynb   # Çalıştırılmış tam vize analiz defteri (10 gömülü grafik)
 ├── outputs/
+│   ├── vize_sunum_paneli.html            # Tarayıcıda açılan etkileşimli 5 sekmeli sunum paneli
 │   ├── figures/              # EDA sürecinde üretilen 10 bilimsel grafik (fig01-fig10)
 │   └── reports/
 │       ├── Vize_Teknik_Raporu.md         # 8 değerlendirme kriterini kapsayan akademik teknik rapor
+│       ├── Vize_Sunum_Rehberi.md         # 5 dakikalık sunum akışı ve soru–cevap rehberi
 │       ├── step2_validation_report.json
 │       ├── step3_before_after_summary.csv
 │       ├── step3_preprocessing_report.json
