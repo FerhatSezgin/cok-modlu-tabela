@@ -704,8 +704,8 @@ def plot_outlier_and_anomaly_case_study(
     """Şekil 9: Aykırı durum, veri kalitesi problemi ve etiket/eşleştirme hatası vaka analizi."""
     _configure_matplotlib()
     fig = plt.figure(figsize=(16.0, 11.4), dpi=200)
-    gs = gridspec.GridSpec(2, 5, figure=fig, height_ratios=[1.05, 1.15], hspace=0.44, wspace=0.28)
-    fig.subplots_adjust(left=0.05, right=0.97, top=0.89, bottom=0.14)
+    gs_top = gridspec.GridSpec(1, 5, figure=fig, left=0.05, right=0.97, top=0.88, bottom=0.57, wspace=0.26)
+    gs_bot = gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1.25, 1.0], left=0.19, right=0.97, top=0.46, bottom=0.14, wspace=0.24)
     fig.suptitle(
         "Şekil 9: Aykırı Durum, Veri Kalitesi Problemleri ve Etiket/Eşleştirme Hatası Vaka Analizi",
         fontsize=13.5,
@@ -728,7 +728,7 @@ def plot_outlier_and_anomaly_case_study(
     ]
 
     for col_idx, (title, row, footer) in enumerate(cases):
-        ax_case = fig.add_subplot(gs[0, col_idx])
+        ax_case = fig.add_subplot(gs_top[0, col_idx])
         with Image.open(BASE_DIR / str(row["image_path"])) as pil_img:
             arr = np.asarray(pil_img.convert("RGB"), dtype=np.uint8)
         ax_case.imshow(arr)
@@ -738,18 +738,18 @@ def plot_outlier_and_anomaly_case_study(
         ax_case.set_xlabel(footer, fontsize=8.0)
 
     # Alt Sol: Tespit Edilen Tüm Kalite Sorunları ve Aykırı Nedenleri Dağılımı
-    ax_bar = fig.add_subplot(gs[1, :3])
+    ax_bar = fig.add_subplot(gs_bot[0, 0])
     cleaning_summary = step3_report["cleaning_summary"]
     outlier_counts = {
-        "İşaretli Aykırı: Düşük Işık (<75)": int(cleaned_df["outlier_reason"].str.contains("Düşük Işık").sum()),
-        "İşaretli Aykırı: Düşük Çözünürlük (20-31px)": int(cleaned_df["outlier_reason"].str.contains("Düşük Çözünürlük").sum()),
-        "İşaretli Aykırı: Yüksek Parlaklık (>165)": int(cleaned_df["outlier_reason"].str.contains("Yüksek Parlaklık").sum()),
-        "İşaretli Aykırı: IQR Metin Uzunluğu": int(cleaned_df["outlier_reason"].str.contains("IQR Metin").sum()),
-        "Elenen Eksik Modalite (Orphan Görsel/Metin)": int(step2_report["unmatched_image_only_count"] + step2_report["unmatched_text_only_count"]),
-        "Elenen Tekrarlı Kayıt (Duplicate Görsel/Metin)": int(step2_report["duplicate_image_ids"] + step2_report["duplicate_text_ids"]),
-        "Elenen Aşırı Düşük Çözünürlük (<20px)": int(cleaning_summary["dropped_ultra_low_res_lt20px"]),
-        "Elenen Bozuk Dosya + Boş Metin": int(cleaning_summary["dropped_corrupted_images"] + cleaning_summary["dropped_empty_texts"]),
-        "Düzeltilen Ham Etiket Uyuşmazlığı": int(cleaning_summary["labels_fixed_count"]),
+        "Aykırı: Düşük Işık (<75)": int(cleaned_df["outlier_reason"].str.contains("Düşük Işık").sum()),
+        "Aykırı: Düşük Çözünürlük (20-31px)": int(cleaned_df["outlier_reason"].str.contains("Düşük Çözünürlük").sum()),
+        "Aykırı: Yüksek Parlaklık (>165)": int(cleaned_df["outlier_reason"].str.contains("Yüksek Parlaklık").sum()),
+        "Aykırı: IQR Metin Uzunluğu": int(cleaned_df["outlier_reason"].str.contains("IQR Metin").sum()),
+        "Elenen: Eksik Modalite (Orphan)": int(step2_report["unmatched_image_only_count"] + step2_report["unmatched_text_only_count"]),
+        "Elenen: Tekrarlı Kayıt (Duplicate)": int(step2_report["duplicate_image_ids"] + step2_report["duplicate_text_ids"]),
+        "Elenen: Aşırı Düşük Çöz. (<20px)": int(cleaning_summary["dropped_ultra_low_res_lt20px"]),
+        "Elenen: Bozuk Görsel + Boş Metin": int(cleaning_summary["dropped_corrupted_images"] + cleaning_summary["dropped_empty_texts"]),
+        "Düzeltilen: Ham Etiket Hatası": int(cleaning_summary["labels_fixed_count"]),
     }
     labels_b = list(outlier_counts.keys())[::-1]
     vals_b = list(outlier_counts.values())[::-1]
@@ -760,13 +760,13 @@ def plot_outlier_and_anomaly_case_study(
     bars = ax_bar.barh(labels_b, vals_b, color=colors_b, edgecolor="#222222", linewidth=0.6, alpha=0.88)
     for bar, val in zip(bars, vals_b):
         ax_bar.text(val + 3, bar.get_y() + bar.get_height() / 2, f"{val}", va="center", fontsize=8.3, fontweight="bold")
-    ax_bar.set_title("A) Tespit Edilen Tüm Kalite Sorunları, Elenen Kayıtlar ve Aykırı Örnek Dökümü", fontsize=10.3, fontweight="bold")
+    ax_bar.set_title("A) Tespit Edilen Kalite Sorunları ve Aykırı Örnek Dökümü", fontsize=10.3, fontweight="bold")
     ax_bar.set_xlabel("Kayıt Sayısı")
     ax_bar.set_xlim(0, max(vals_b) * 1.16)
     ax_bar.grid(axis="x", alpha=0.25)
 
     # Alt Sağ: Çözünürlük vs Parlaklık Kalite Bölgesi Haritası
-    ax_zone = fig.add_subplot(gs[1, 3:])
+    ax_zone = fig.add_subplot(gs_bot[0, 1])
     normal_pts = cleaned_df[~cleaned_df["is_outlier_sample"]]
     outlier_pts = cleaned_df[cleaned_df["is_outlier_sample"]]
     dropped_pts = raw_matched_df[(~raw_matched_df["is_corrupted"]) & (raw_matched_df[["width", "height"]].min(axis=1) < 20)]

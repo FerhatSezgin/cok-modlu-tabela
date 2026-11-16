@@ -252,7 +252,7 @@ def plot_split_verification(
     plt.rcParams["axes.facecolor"] = "#FAFAFA"
 
     fig, axes = plt.subplots(2, 2, figsize=(16.0, 10.6), dpi=200)
-    fig.subplots_adjust(left=0.06, right=0.97, top=0.89, bottom=0.14, hspace=0.38, wspace=0.25)
+    fig.subplots_adjust(left=0.13, right=0.97, top=0.89, bottom=0.14, hspace=0.38, wspace=0.24)
     fig.suptitle(
         "Şekil 10: Sızıntısız Katmanlı Veri Bölme (70/15/15 + 5-Fold CV) ve Model Girdi Tensörü Doğrulaması",
         fontsize=13.5,
