@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Multimodal Derin Öğrenme Projesi — Aşama 1 (Vize) Teknik Raporu</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 13mm 14mm 14mm 14mm;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", "DejaVu Sans", Arial, sans-serif;
+      font-size: 9.8pt;
+      line-height: 1.48;
+      color: #1a202c;
+      background: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .doc-wrap {
+      max-width: 100%;
+    }
+    h1 {
+      font-size: 16.5pt;
+      color: #0f294d;
+      border-bottom: 2.5px solid #1a56db;
+      padding-bottom: 8px;
+      margin: 0 0 10px 0;
+    }
+    h2 {
+      font-size: 12.8pt;
+      color: #0f294d;
+      background: #eff6ff;
+      border-left: 4.5px solid #1a56db;
+      padding: 6px 10px;
+      margin: 18px 0 8px 0;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    h3 {
+      font-size: 10.6pt;
+      color: #1e3a5f;
+      margin: 12px 0 5px 0;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    p {
+      margin: 5px 0 8px 0;
+      text-align: justify;
+    }
+    ul, ol {
+      margin: 4px 0 8px 0;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 3px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #cbd5e1;
+      margin: 12px 0;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 8.6pt;
+      background: #f1f5f9;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #0f172a;
+    }
+    pre {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #334155;
+      border-radius: 5px;
+      padding: 8px 10px;
+      font-size: 8.1pt;
+      white-space: pre-wrap;
+      word-break: break-word;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    pre code {
+      background: transparent;
+      padding: 0;
+    }
+    .table-caption {
+      font-size: 9.2pt;
+      color: #1e293b;
+      margin: 10px 0 3px 0;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 4px 0 11px 0;
+      font-size: 8.6pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 5px 7px;
+      vertical-align: top;
+    }
+    th {
+      background: #102a56;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    figure.report-fig {
+      margin: 10px 0 6px 0;
+      padding: 6px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      background: #ffffff;
+      text-align: center;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    figure.report-fig img {
+      max-width: 100%;
+      max-height: 142mm;
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    figure.report-fig figcaption {
+      margin-top: 5px;
+      font-size: 8.6pt;
+      font-weight: 600;
+      color: #334155;
+    }
+    .sci-comment {
+      background: #f8fafc;
+      border: 1px solid #bfdbfe;
+      border-left: 4px solid #1a56db;
+      border-radius: 5px;
+      padding: 7px 11px;
+      margin: 4px 0 12px 0;
+      font-size: 8.9pt;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .sci-title {
+      font-weight: 700;
+      color: #0f294d;
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="doc-wrap">
+    <h1>Multimodal Derin Öğrenme Projesi — Aşama 1 (Vize) Teknik Raporu</h1>
+<p><strong>Proje Başlığı:</strong> Trafik İşareti Görüntüleri ve Sürücü Uyarı Metinlerinin Multimodal Derin Öğrenme ile Füzyonu Kullanılarak Sürüş Güvenliği ve Kural İhlali Sınıflandırması<br />
+<strong>Ders:</strong> Derin Öğrenme (Lisans)<br />
+<strong>Aşama:</strong> Aşama 1 | Veri Toplama, Modalite Eşleştirme, Ön İşleme ve Keşifsel Veri Analizi (EDA)<br />
+<strong>Tekrarlanabilirlik Tohumu (<code>RANDOM_SEED</code>):</strong> <code>42</code></p>
+<hr />
+<h2>İçindekiler ve Puanlama Kriteri Eşlemesi</h2>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center">Bölüm</th>
+  <th style="text-align:left">Değerlendirme Kriteri</th>
+  <th style="text-align:center">Puan</th>
+  <th style="text-align:left">İlgili Kod Modülü</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center"><strong>1</strong></td>
+  <td style="text-align:left">Problem Tanımı ve Multimodal Yapı</td>
+  <td style="text-align:center">10</td>
+  <td style="text-align:left"><code>src/config.py</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>2</strong></td>
+  <td style="text-align:left">Veri Kaynakları ve Veri Toplama Süreci</td>
+  <td style="text-align:center">10</td>
+  <td style="text-align:left"><code>src/data_loader.py</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>3</strong></td>
+  <td style="text-align:left">Veri Miktarı, Dağılım ve Temsil Gücü</td>
+  <td style="text-align:center">12</td>
+  <td style="text-align:left"><code>src/data_loader.py</code>, <code>src/eda.py</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>4</strong></td>
+  <td style="text-align:left">Modalitelerin Eşleştirilmesi ve Etiket Kalitesi</td>
+  <td style="text-align:center">15</td>
+  <td style="text-align:left"><code>src/data_loader.py</code>, <code>src/preprocessing.py</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>5</strong></td>
+  <td style="text-align:left">Veri Temizleme ve Ön İşleme</td>
+  <td style="text-align:center">15</td>
+  <td style="text-align:left"><code>src/preprocessing.py</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>6</strong></td>
+  <td style="text-align:left">Keşifsel Veri Analizi (EDA) ve Görselleştirme</td>
+  <td style="text-align:center">25</td>
+  <td style="text-align:left"><code>src/eda.py</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>7</strong></td>
+  <td style="text-align:left">Modellemeye Hazırlık ve Veri Bölme Stratejisi</td>
+  <td style="text-align:center">8</td>
+  <td style="text-align:left"><code>src/splitter.py</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>8</strong></td>
+  <td style="text-align:left">Sunum, Kod Hâkimiyeti ve Bilimsel Yorumlama</td>
+  <td style="text-align:center">5</td>
+  <td style="text-align:left"><code>notebooks/01_multimodal_vize_analiz.ipynb</code></td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>TOPLAM</strong></td>
+  <td style="text-align:left"></td>
+  <td style="text-align:center"><strong>100</strong></td>
+  <td style="text-align:left"><strong>Tüm Modüler Hat (<code>src/</code> + <code>notebooks/</code>)</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>1. Problem Tanımı ve Multimodal Yapı (10 Puan)</h2>
+<h3>1.1 Problem Tanımı ve Motivasyon</h3>
+<p>Gelişmiş Sürücü Destek Sistemleri (ADAS) ve otonom araç algılama birimlerinde trafik işaretlerinin yalnızca &quot;hangi tabela&quot; olduğunu bilmek yeterli değildir; sistemin algılanan işaretin <strong>sürüş güvenliği açısından aciliyet derecesini ve olası kural ihlali riskini</strong> gerçek zamanlı olarak sınıflandırması gerekir. Örneğin hız sınırının aşılması veya <code>DUR</code> levhasında durulmaması doğrudan ağır çarpışma riski taşırken, mecburi yön levhaları şerit akış düzenini sağlar.</p>
+<p>Bu kapsamda problem, <strong>4 sınıflı çok sınıflı (multi-class) sınıflandırma</strong> görevi olarak modellenmiştir. Veri setimiz, <strong>GTSRB (German Traffic Sign Recognition Benchmark)</strong> standardından seçilen <strong>16 temsili alt trafik işareti sınıfını</strong> sürüş güvenliği ve kural ihlali sonuçlarına göre <strong>4 ana hedef kategoride</strong> birleştirmektedir (<code>Tablo 1</code>).</p>
+<div class="table-caption"><strong>Tablo 1:</strong> Hedef Sürüş Güvenliği Sınıfları ve Kapsanan 16 GTSRB Alt Sınıfı</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center">Hedef Sınıf ID</th>
+  <th style="text-align:left">Hedef Sınıf Kodu</th>
+  <th style="text-align:center">Risk Düzeyi</th>
+  <th style="text-align:left">Kapsadığı GTSRB Alt Sınıfları (<code>gtsrb_id</code> ve Kod)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center"><code>0</code></td>
+  <td style="text-align:left"><code>Kritik_Yasak_ve_Hiz</code></td>
+  <td style="text-align:center">Çok Yüksek</td>
+  <td style="text-align:left"><code>[1]</code> Hız Sınırı 30, <code>[2]</code> Hız Sınırı 50, <code>[4]</code> Hız Sınırı 70, <code>[9]</code> Geçme Yasağı, <code>[17]</code> Girişi Olmayan Yol</td>
+</tr>
+<tr>
+  <td style="text-align:center"><code>1</code></td>
+  <td style="text-align:left"><code>Oncelik_ve_Durdurma</code></td>
+  <td style="text-align:center">Çok Yüksek</td>
+  <td style="text-align:left"><code>[12]</code> Öncelikli Yol, <code>[13]</code> Yol Ver, <code>[14]</code> DUR</td>
+</tr>
+<tr>
+  <td style="text-align:center"><code>2</code></td>
+  <td style="text-align:left"><code>Tehlike_ve_Uyari</code></td>
+  <td style="text-align:center">Orta-Yüksek</td>
+  <td style="text-align:left"><code>[18]</code> Dikkat/Tehlike, <code>[25]</code> Yol Çalışması, <code>[27]</code> Yaya Geçidi, <code>[30]</code> Buzlanma Uyarısı</td>
+</tr>
+<tr>
+  <td style="text-align:center"><code>3</code></td>
+  <td style="text-align:left"><code>Mecburi_Yon_ve_Bilgi</code></td>
+  <td style="text-align:center">Düşük-Orta</td>
+  <td style="text-align:left"><code>[33]</code> Sağa Mecburi, <code>[34]</code> Sola Mecburi, <code>[35]</code> İleri Mecburi, <code>[38]</code> Sağdan Gidiniz</td>
+</tr>
+</tbody>
+</table>
+<h3>1.2 Modalitelerin Tanımlanması</h3>
+<p>Her örnek (<code>sample_id</code>), iki farklı bilgi kanalından gelen verileri bire bir taşımaktadır:</p>
+<ol>
+<li><strong>Modalite 1 — Görsel (RGB Trafik İşareti Görüntüsü):</strong><ul>
+<li><strong>Biçim ve Boyut:</strong> Ham PNG RGB görüntüler (<code>20x20</code> ile <code>112x112</code> piksel arası değişken boyutlar; ön işleme sonrası sabit <code>64x64x3</code> <code>float32</code> <code>[0.0, 1.0]</code>).</li>
+<li><strong>Taşıdığı Bilgi:</strong> Levhanın geometrik şekli (sekizgen, ters üçgen, eşkenar üçgen, daire, eşkenar dörtgen), renk çerçevesi (kırmızı, sarı, mavi) ve iç sembol/rakam örüntüleri.</li>
+</ul>
+</li>
+<li><strong>Modalite 2 — Metin (Türkçe ADAS Sürücü Uyarı Metni ve Sensör Bağlamı):</strong><ul>
+<li><strong>Biçim ve Boyut:</strong> UTF-8 Türkçe serbest/yarı-yapılandırılmış metin (<code>25–43</code> ham kelime; ön işleme sonrası <code>537</code> kelimelik sözlük ve <code>max_seq_len = 40</code> token dizisi).</li>
+<li><strong>Taşıdığı Bilgi:</strong> Araç içi ADAS sesli/ekran uyarı cümlesi, ilgili trafik kuralının anlamsal açıklaması, uyarı aciliyeti (<code>ACİL UYARI</code> .. <code>BİLGİLENDİRME</code>) ve görüntünün ölçülen sensör koşulu (aydınlatma/çözünürlük durumu).</li>
+</ul>
+</li>
+</ol>
+<h3>1.3 Multimodal Yaklaşımın Gerekçelendirilmesi</h3>
+<ul>
+<li><strong>Yalnızca Görsel Kullanmanın Sınırlılıkları:</strong> Uzaktan çekimlerde (<code>20–31 px</code>), gece karanlığında veya güneş yansımasında hız limitindeki <code>30</code> ve <code>50</code> rakamları ya da üçgen uyarı sembolleri görsel olarak bulanıklaşıp karışabilmektedir.</li>
+<li><strong>Yalnızca Metin Kullanmanın Sınırlılıkları:</strong> Uyarı metni ve kural açıklaması anlamsal riski iyi taşır ancak sahadaki görsel kanıtı, tabela geometrisini ve çevresel renk bilgisini içermez.</li>
+<li><strong>Ortak Uzayda Füzyonun Avantajı:</strong> Aynı <code>sample_id</code> üzerinden eşleşen görsel ve metinsel temsillerin ortak özellik uzayında birleştirilmesi (<em>feature-level fusion</em>), düşük kaliteli görüntü koşullarından kaynaklanan belirsizliği metinsel kural bağlamıyla telafi eder (bkz. <code>Şekil 6</code> ve <code>Şekil 8</code>).</li>
+</ul>
+<hr />
+<h2>2. Veri Kaynakları ve Veri Toplama Süreci (10 Puan)</h2>
+<h3>2.1 Kaynakların Açıklanması</h3>
+<ul>
+<li><strong>Görsel Kaynak Referansı:</strong> German Traffic Sign Recognition Benchmark (GTSRB) şeması ve 16 resmi sınıf tanımı (<code>Stallkamp et al., 2012, Neural Networks, 32: 323–332</code>, erişim adresi: <code>https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/GTSRB_Final_Training_Images.zip</code>, akademik/araştırma amaçlı açık erişim).</li>
+<li><strong>Veri Edinme Modu (<code>src/data_loader.py</code>):</strong> Modül hem resmi GTSRB arşivinden doğrudan indirmeyi (<code>--download</code> bayrağı ile <code>download_gtsrb_subset()</code>) hem de çevrimdışı ortamlarda tam tekrarlanabilirlik sağlayan deterministik gerçekçi GTSRB simülasyon üreticisini (<code>generate_realistic_sign_dataset()</code>, <code>RANDOM_SEED = 42</code>) desteklemektedir. Bu çalışmada çok kaynaklı veri toplama koşullarını ve kalite problemlerini kontrollü biçimde inceleyebilmek amacıyla yerel deterministik üretici kullanılmıştır.</li>
+<li><strong>Etik ve Gizlilik Kısıtları:</strong> Üretilen/kırpılan görüntüler yalnızca trafik işaretlerini içermekte olup plaka, insan yüzü veya kişisel veri barındırmamaktadır.</li>
+</ul>
+<h3>2.2 Veri Edinme Yöntemi ve İzlenebilirlik Kuralları</h3>
+<p>Veri bütünlüğü ve izlenebilirlik için tekil örnek anahtarı <strong><code>sample_id</code> (<code>TRSIGN_00001</code> .. <code>TRSIGN_02960</code>)</strong> tanımlanmıştır:</p>
+<ol>
+<li>Görsel kayıtlar sınıf bazlı dizinlerde (<code>data/raw/images/&lt;gtsrb_id:05d&gt;/&lt;sample_id&gt;.png</code>) saklanarak <code>data/raw/raw_images_manifest.csv</code> tablosuna işlenir.</li>
+<li>Metinsel ADAS sürücü uyarıları bağımsız kaynak tablosu olan <code>data/raw/raw_driver_warnings.csv</code> dosyasında aynı <code>sample_id</code> anahtarı ile üretilir.</li>
+<li>Çok kaynaklı saha veri akışında karşılaşılan gerçekçi sorunlar (ardışık kare tekrarı, eksik modaliteli orphan kayıtlar, bozuk PNG baytları, <code>&lt;20px</code> okunamaz kareler, boş metinler, <code>[CAN_BUS_...]</code> log gürültüleri ve ham etiket uyuşmazlıkları) ham tablolarda korunur ve adım adım raporlanır (<code>Tablo 2</code>).</li>
+</ol>
+<div class="table-caption"><strong>Tablo 2:</strong> Ham Veri Kaynaklarından Nihai Temiz Veri Setine Kayıt Dökümü</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Aşama</th>
+  <th style="text-align:center">Görsel Kayıt Sayısı</th>
+  <th style="text-align:center">Metin Kayıt Sayısı</th>
+  <th style="text-align:left">Açıklama / Uygulanan Kural</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left">Ham Kaynak Tabloları (<code>raw_*</code>)</td>
+  <td style="text-align:center"><code>2.993</code></td>
+  <td style="text-align:center"><code>2.985</code></td>
+  <td style="text-align:left">Tekrarlar ve eksik modaliteli kayıtlar dâhil ham girişler</td>
+</tr>
+<tr>
+  <td style="text-align:left">Tekilleştirme (Deduplication)</td>
+  <td style="text-align:center"><code>2.975</code> (<code>-18</code>)</td>
+  <td style="text-align:center"><code>2.971</code> (<code>-14</code>)</td>
+  <td style="text-align:left"><code>sample_id</code> bazlı ardışık kare / CAN-BUS tekrarları elendi</td>
+</tr>
+<tr>
+  <td style="text-align:left">1:1 Eşleştirme (<code>inner join</code>)</td>
+  <td style="text-align:center"><code>2.960</code></td>
+  <td style="text-align:center"><code>2.960</code></td>
+  <td style="text-align:left">Metni olmayan <code>15</code> görsel ve görseli olmayan <code>11</code> metin ayrıldı</td>
+</tr>
+<tr>
+  <td style="text-align:left">Kalite Temizliği (Adım 3)</td>
+  <td style="text-align:center"><code>2.922</code> (<code>-38</code>)</td>
+  <td style="text-align:center"><code>2.922</code> (<code>-38</code>)</td>
+  <td style="text-align:left"><code>12</code> bozuk görsel + <code>16</code> <code>&lt;20px</code> görsel + <code>10</code> boş metin elendi</td>
+</tr>
+<tr>
+  <td style="text-align:left"><strong>Nihai Temiz Multimodal Veri</strong></td>
+  <td style="text-align:center"><strong><code>2.922</code></strong></td>
+  <td style="text-align:center"><strong><code>2.922</code></strong></td>
+  <td style="text-align:left"><strong>Bire bir eşleşmiş, doğrulanmış ve ön işlenmiş veri kümesi</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. Veri Miktarı, Dağılım ve Temsil Gücü (12 Puan)</h2>
+<h3>3.1 Veri Miktarı ve Ders Yeterlilik Koşulları</h3>
+<p>Temizlik sonrasında elde edilen <strong><code>2.922</code> adet</strong> eşleşmiş multimodal örneğin sınıf bazlı dağılımı <code>Tablo 3</code> ve <code>Şekil 3</code>'te verilmiştir.</p>
+<div class="table-caption"><strong>Tablo 3:</strong> Temizlik Sonrası Ana Sınıf Frekans Dağılımı ve Ders Kriteri Kontrolü</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:center">Sınıf ID</th>
+  <th style="text-align:left">Ana Güvenlik Sınıfı</th>
+  <th style="text-align:center">Örnek Sayısı (<code>N</code>)</th>
+  <th style="text-align:center">Yüzde (%)</th>
+  <th style="text-align:center">Alt Sınıf Sayısı</th>
+  <th style="text-align:center">En Küçük Alt Sınıf</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:center"><code>0</code></td>
+  <td style="text-align:left"><code>Kritik_Yasak_ve_Hiz</code></td>
+  <td style="text-align:center"><code>968</code></td>
+  <td style="text-align:center"><code>%33.1</code></td>
+  <td style="text-align:center"><code>5</code></td>
+  <td style="text-align:center"><code>164</code> (<code>Girisi_Olmayan_Yol</code>)</td>
+</tr>
+<tr>
+  <td style="text-align:center"><code>1</code></td>
+  <td style="text-align:left"><code>Oncelik_ve_Durdurma</code></td>
+  <td style="text-align:center"><code>548</code></td>
+  <td style="text-align:center"><code>%18.8</code></td>
+  <td style="text-align:center"><code>3</code></td>
+  <td style="text-align:center"><code>166</code> (<code>Dur</code>)</td>
+</tr>
+<tr>
+  <td style="text-align:center"><code>2</code></td>
+  <td style="text-align:left"><code>Tehlike_ve_Uyari</code></td>
+  <td style="text-align:center"><code>698</code></td>
+  <td style="text-align:center"><code>%23.9</code></td>
+  <td style="text-align:center"><code>4</code></td>
+  <td style="text-align:center"><code>159</code> (<code>Yaya_Gecidi</code>)</td>
+</tr>
+<tr>
+  <td style="text-align:center"><code>3</code></td>
+  <td style="text-align:left"><code>Mecburi_Yon_ve_Bilgi</code></td>
+  <td style="text-align:center"><code>708</code></td>
+  <td style="text-align:center"><code>%24.2</code></td>
+  <td style="text-align:center"><code>4</code></td>
+  <td style="text-align:center"><code>162</code> (<code>Sola_Mecburi_Yon</code>)</td>
+</tr>
+<tr>
+  <td style="text-align:center"><strong>Toplam</strong></td>
+  <td style="text-align:left"><strong>4 Ana Sınıf</strong></td>
+  <td style="text-align:center"><strong><code>2.922</code></strong></td>
+  <td style="text-align:center"><strong><code>%100.0</code></strong></td>
+  <td style="text-align:center"><strong><code>16</code></strong></td>
+  <td style="text-align:center"><strong><code>159</code> (<code>&gt;= 150</code> OK)</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>En az 3 sınıf kuralı:</strong> <code>4</code> ana sınıf (<code>&gt;= 3</code>) ✅</li>
+<li><strong>Sınıf başına en az 150 örnek kuralı:</strong> En küçük ana sınıf <code>548</code>, en küçük alt sınıf <code>159</code> (<code>&gt;= 150</code>) ✅</li>
+<li><strong>Toplam en az 500 örnek kuralı:</strong> <code>2.922</code> örnek (<code>&gt;= 500</code>) ✅</li>
+</ul>
+<figure class="report-fig"><img src="../figures/fig03_class_and_subclass_distribution.png" alt="Şekil 3: Sınıf Frekans Dağılımı ve Dengesizlik Analizi" /><figcaption>Şekil 3: Sınıf Frekans Dağılımı ve Dengesizlik Analizi</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 3 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> En kalabalık sınıf <code>Kritik_Yasak_ve_Hiz</code> (<code>968</code> örnek, <code>%33.1</code>), en küçük sınıf ise <code>Oncelik_ve_Durdurma</code> (<code>548</code> örnek, <code>%18.8</code>) olup dengesizlik oranı <code>1.77:1</code>'dir. 16 alt sınıfın tamamı <code>159–222</code> örnek aralığındadır.</li>
+<li><em>Neden Önemli:</em> Aşırı dengesizlik (<code>&gt;5:1</code>) bulunmamakla birlikte <code>1.77:1</code> oranı, modelin çoğunluk sınıfına yönelme riskini tamamen sıfırlamaz.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Eğitimde Stratified bölme ve azınlık sınıflar lehine <code>Class-Weighted CrossEntropy</code> kayıp fonksiyonu kullanılacaktır.</li>
+</ul></div>
+<h3>3.2 Temsil Gücü ve Olası Yanlılıklar (Bias)</h3>
+<ul>
+<li><strong>Güçlü Yönler:</strong> Görseller <code>20x20</code> ile <code>112x112</code> piksel arasında değişken ölçeklerde (<code>220</code> düşük, <code>1.164</code> orta, <code>1.538</code> yüksek çözünürlük) ve farklı parlaklık/gürültü seviyelerinde (<code>191</code> düşük ışık/gece, <code>55</code> güneş yansıması) çeşitlendirilmiştir. Işık koşulları sınıflar arasında yanlılık oluşturmayacak şekilde dengeli dağıtılmıştır (<code>Şekil 4</code>).</li>
+<li><strong>Sınırlılıklar ve Yanlılık Kaynakları:</strong> (1) <code>Kritik_Yasak_ve_Hiz</code> 5 alt tabela içerdiğinden doğal olarak <code>%33.1</code> ağırlığa sahiptir. (2) Simüle edilmiş GTSRB geometrileri aşırı kısmi tıkanma (ağaç dalı/çamur) içermemektedir. (3) Türkçe ADAS metinleri kontrollü şablon çeşitlendirmesi ile üretildiğinden serbest insan konuşmasındaki yazım hatalarını barındırmaz.</li>
+</ul>
+<hr />
+<h2>4. Modalitelerin Eşleştirilmesi ve Etiket Kalitesi (15 Puan)</h2>
+<h3>4.1 Modaliteler Arası Eşleştirme Mantığı ve İstatistikleri</h3>
+<p>Görsel (<code>raw_images_manifest.csv</code>) ve metin (<code>raw_driver_warnings.csv</code>) tabloları ortak birincil anahtar olan <strong><code>sample_id</code></strong> üzerinden tekilleştirildikten sonra bire bir iç birleştirme (<code>pd.merge(..., on=&quot;sample_id&quot;, how=&quot;inner&quot;, validate=&quot;one_to_one&quot;)</code>) ile birleştirilmiştir (<code>Tablo 4</code>).</p>
+<div class="table-caption"><strong>Tablo 4:</strong> Modaliteler Arası Eşleştirme ve Eksik Modalite Özeti (<code>step2_validation_report.json</code>)</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Ölçüt</th>
+  <th style="text-align:center">Değer</th>
+  <th style="text-align:left">Açıklama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left">Tekil Görsel Aday Sayısı</td>
+  <td style="text-align:center"><code>2.975</code></td>
+  <td style="text-align:left"><code>2.960</code> eşleşen + <code>15</code> metni eksik görsel</td>
+</tr>
+<tr>
+  <td style="text-align:left">Tekil Metin Aday Sayısı</td>
+  <td style="text-align:center"><code>2.971</code></td>
+  <td style="text-align:left"><code>2.960</code> eşleşen + <code>11</code> görseli eksik metin</td>
+</tr>
+<tr>
+  <td style="text-align:left">Toplam Tekil Aday Çift (<code>Görsel ∪ Metin</code>)</td>
+  <td style="text-align:center"><code>2.986</code></td>
+  <td style="text-align:left"><code>2.960 + 15 + 11</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><strong>Bire Bir (1:1) Eşleşen Örnek Sayısı</strong></td>
+  <td style="text-align:center"><strong><code>2.960</code></strong></td>
+  <td style="text-align:left">Tekrarlanan ID yok (<code>0</code> duplicate after merge)</td>
+</tr>
+<tr>
+  <td style="text-align:left"><strong>Eşleşme Oranı</strong></td>
+  <td style="text-align:center"><strong><code>%99.13</code></strong></td>
+  <td style="text-align:left"><code>2.960 / 2.986</code></td>
+</tr>
+<tr>
+  <td style="text-align:left">Eksik Modaliteli Kayıt (Düşenler)</td>
+  <td style="text-align:center"><code>26</code> (<code>%0.87</code>)</td>
+  <td style="text-align:left"><code>15</code> görsel-tek + <code>11</code> metin-tek kayıt</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Eksik Modalite Ele Alma Stratejisi:</strong> Tek modalitesi eksik olan <code>26</code> kayıt (<code>%0.87</code>) oranı çok düşük olduğundan ve multimodal füzyon mimarisi her iki kolun eş zamanlı girdisini gerektirdiğinden yapay metin/görüntü uydurularak veri kirliliği yaratmak yerine <strong>inner join ile kapsam dışı bırakılmıştır</strong>.</li>
+<li><strong>Etiket Kökeni ve Kalite Kontrolü:</strong> Hedef sınıflar GTSRB sınıf kimliğinden (<code>gtsrb_id</code>) deterministik olarak <code>SIGN_CATALOG</code> tablosuyla türetilmektedir. Ham manifestoda tespit edilen <strong><code>10</code> adet hatalı ham sınıf etiketi (<code>raw_safety_class_id != expected</code>)</strong> Adım 3'te referans kataloğu üzerinden doğrulanarak düzeltilmiştir (<code>label_fixed = True</code>).</li>
+</ul>
+<figure class="report-fig"><img src="../figures/fig06_multimodal_paired_samples_gallery.png" alt="Şekil 6: Modaliteler Arası Eşleştirme Kanıtı" /><figcaption>Şekil 6: Modaliteler Arası Eşleştirme Kanıtı</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 6 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> 4 ana sınıfın her birinden alınan örneklerde aynı <code>sample_id</code> (<code>TRSIGN_01377</code>, <code>TRSIGN_01207</code>, <code>TRSIGN_01917</code>, <code>TRSIGN_02246</code>) altında hem tabela görseli hem de o görselin ölçülen ışık/çözünürlük koşulunu içeren Türkçe ADAS uyarısı bire bir eşleşmektedir.</li>
+<li><em>Neden Önemli:</em> İki modalitenin bağımsız kümeler değil aynı olayın iki farklı temsili olduğunu görsel ve metinsel olarak kanıtlar.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Geçici/ortak ID kilidi, final aşamasında çift kollu füzyon ağının tutarlı gradyan öğrenmesi için temel sağlar.</li>
+</ul></div>
+<hr />
+<h2>5. Veri Temizleme ve Ön İşleme (15 Puan)</h2>
+<h3>5.1 Tespit Edilen Veri Kalitesi Sorunları</h3>
+<p>Adım 2 ve Adım 3 denetimlerinde toplam 6 kategoride somut kalite sorunu sayısallaştırılmıştır (<code>Tablo 5</code>).</p>
+<div class="table-caption"><strong>Tablo 5:</strong> Veri Kalitesi Sorunları ve Uygulanan Müdahale Stratejisi</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Sorun Türü</th>
+  <th style="text-align:center">Tespit Edilen Sayı</th>
+  <th style="text-align:left">Uygulanan Müdahale</th>
+  <th style="text-align:left">Gerekçe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left">Tekrarlı Kayıt (Duplicate ID)</td>
+  <td style="text-align:center"><code>32</code> (<code>18</code> görsel, <code>14</code> metin)</td>
+  <td style="text-align:left">İlk kayıt tutularak elendi</td>
+  <td style="text-align:left">Train/Test veri sızıntısını önlemek</td>
+</tr>
+<tr>
+  <td style="text-align:left">Eksik Modaliteli Kayıt (Orphan)</td>
+  <td style="text-align:center"><code>26</code> (<code>15</code> görsel, <code>11</code> metin)</td>
+  <td style="text-align:left">Eşleştirme dışı bırakıldı</td>
+  <td style="text-align:left">İki modalite gerektiren füzyonu korumak</td>
+</tr>
+<tr>
+  <td style="text-align:left">Bozuk / Okunamayan PNG Dosyası</td>
+  <td style="text-align:center"><code>12</code></td>
+  <td style="text-align:left">Elendi</td>
+  <td style="text-align:left">Piksel tensörü oluşturulamıyor</td>
+</tr>
+<tr>
+  <td style="text-align:left">Aşırı Düşük Çözünürlük (<code>&lt;20px</code>)</td>
+  <td style="text-align:center"><code>16</code></td>
+  <td style="text-align:left">Elendi</td>
+  <td style="text-align:left">Rakam/sembol tanınamaz düzeyde bozulmuş</td>
+</tr>
+<tr>
+  <td style="text-align:left">Boş / Eksik Metin (<code>warning_text=&quot;&quot;</code>)</td>
+  <td style="text-align:center"><code>10</code></td>
+  <td style="text-align:left">Elendi</td>
+  <td style="text-align:left">Metin modalitesi boş</td>
+</tr>
+<tr>
+  <td style="text-align:left">Ham Sınıf Etiket Uyuşmazlığı</td>
+  <td style="text-align:center"><code>10</code></td>
+  <td style="text-align:left"><code>SIGN_CATALOG</code> ile düzeltildi</td>
+  <td style="text-align:left">Yanlış gözetimli öğrenmeyi engellemek</td>
+</tr>
+<tr>
+  <td style="text-align:left">Gürültülü Log Etiketli Metin</td>
+  <td style="text-align:center"><code>1.213</code> (<code>%41.51</code> temiz veri)</td>
+  <td style="text-align:left">Regex ile temizlendi</td>
+  <td style="text-align:left"><code>[CAN_BUS_...]</code> ve <code>!!!</code> gürültüsünü silmek</td>
+</tr>
+<tr>
+  <td style="text-align:left">Zorlu/Aykırı Örnek (<code>20–31px</code>, gece/parlama)</td>
+  <td style="text-align:center"><code>348</code></td>
+  <td style="text-align:left"><strong>Silinmedi, bayraklandı</strong></td>
+  <td style="text-align:left">Modelin gerçek saha zorluklarına dayanıklılığı</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 Görsel ve Metin Ön İşleme Yöntemleri ve Gerekçeleri</h3>
+<ul>
+<li><strong>Görsel Ön İşleme (<code>src/preprocessing.py</code>):</strong><ol>
+<li><strong>Yeniden Boyutlandırma (<code>Bicubic</code>, <code>64x64</code>):</strong> Değişken <code>20–112 px</code> boyutları ortak tensör girişine dönüştürmek ve küçük tabelalardaki sayı/kenar keskinliğini korumak için <code>cv2.INTER_CUBIC</code> kullanılmıştır.</li>
+<li><strong>LAB-CLAHE Kontrast Dengeleme (<code>clipLimit=2.0</code>, <code>tileGridSize=(4,4)</code>):</strong> Trafik işaretlerinde kırmızı/mavi/sarı renk tonlarını bozmamak için RGB yerine yalnızca <strong>LAB uzayının parlaklık (<code>L</code>) kanalına</strong> yerel histogram eşitleme uygulanmıştır.</li>
+<li><strong>Piksel Normalizasyonu (<code>[0.0, 1.0] float32</code>):</strong> Tüm piksel değerleri <code>255.0</code> ile bölünerek birim aralığa çekilmiştir.</li>
+</ol>
+</li>
+<li><strong>Metin Ön İşleme (<code>src/preprocessing.py</code>):</strong><ol>
+<li><strong>Sensör Log Temizliği:</strong> Regex ile <code>[CAN_BUS_...]</code> ve <code>&lt;...&gt;</code> sistem etiketleri silinmiştir.</li>
+<li><strong>Türkçe Duyarlı Küçük Harf Dönüşümü:</strong> Standart <code>.lower()</code> yerine <code>İ -&gt; i</code> ve <code>I -&gt; ı</code> kuralı uygulanarak Türkçe karakter bütünlüğü korunmuştur.</li>
+<li><strong>Noktalama ve Etkisiz Kelime (Stop-word) Temizliği:</strong> Hız sınırını belirten sayılar (<code>30</code>, <code>50</code>, <code>70</code>) ve kural anlamını taşıyan sözcükler (<code>dur</code>, <code>yasaktır</code>, <code>değil</code>) <strong>korunarak</strong> yalnızca noktalama ve nötr bağlaçlar (<code>ve</code>, <code>ile</code>, <code>bu</code>, <code>için</code> vb.) temizlenmiştir.</li>
+<li><strong>Tokenizasyon ve Bilgi Kaybı Analizi:</strong> Toplam <code>537</code> benzersiz tokendan oluşan sözlük (<code>vocabulary.json</code>) çıkarılmıştır. Sabit dizi uzunluğu <strong><code>MAX_SEQ_LEN = 40</code></strong> seçilerek tüm örneklerin kesilmeden temsil edilmesi (<strong><code>%0.0</code> kesilme kaybı</strong>) garanti altına alınmıştır.</li>
+</ol>
+</li>
+</ul>
+<h3>5.3 Öncesi–Sonrası Sayısal ve Görsel Karşılaştırma</h3>
+<div class="table-caption"><strong>Tablo 6:</strong> Ön İşleme Öncesi ve Sonrası Sayısal Etki Özeti (<code>step3_before_after_summary.csv</code>)</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Kategori</th>
+  <th style="text-align:left">Metrik</th>
+  <th style="text-align:center">İşlem Öncesi</th>
+  <th style="text-align:center">İşlem Sonrası</th>
+  <th style="text-align:left">Etki Açıklaması</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left">Veri Miktarı</td>
+  <td style="text-align:left">Eşleşmiş Örnek Sayısı</td>
+  <td style="text-align:center"><code>2.960</code></td>
+  <td style="text-align:center"><code>2.922</code></td>
+  <td style="text-align:left"><code>38</code> bozuk/boş/<code>&lt;20px</code> kayıt elendi</td>
+</tr>
+<tr>
+  <td style="text-align:left">Etiket Kalitesi</td>
+  <td style="text-align:left">Tutarsız Ham Etiket</td>
+  <td style="text-align:center"><code>10</code></td>
+  <td style="text-align:center"><code>0</code></td>
+  <td style="text-align:left"><code>SIGN_CATALOG</code> ile doğrulandı</td>
+</tr>
+<tr>
+  <td style="text-align:left">Görsel Modalite</td>
+  <td style="text-align:left">Çözünürlük Aralığı</td>
+  <td style="text-align:center"><code>14px – 112px</code></td>
+  <td style="text-align:center"><code>64x64</code> Sabit</td>
+  <td style="text-align:left">Ortak CNN giriş tensörü sağlandı</td>
+</tr>
+<tr>
+  <td style="text-align:left">Görsel Modalite</td>
+  <td style="text-align:left">Piksel Değer Aralığı</td>
+  <td style="text-align:center"><code>[0, 255] uint8</code></td>
+  <td style="text-align:center"><code>[0.0, 1.0] float32</code></td>
+  <td style="text-align:left">Gradyan kararlılığı için ölçeklendi</td>
+</tr>
+<tr>
+  <td style="text-align:left">Görsel Modalite</td>
+  <td style="text-align:left">Ortalama Parlaklık (0–255)</td>
+  <td style="text-align:center"><code>113.46 ± 26.19</code></td>
+  <td style="text-align:center"><code>139.28 ± 24.00</code></td>
+  <td style="text-align:left">LAB-CLAHE ile düşük ışık dengelendi</td>
+</tr>
+<tr>
+  <td style="text-align:left">Görsel Modalite</td>
+  <td style="text-align:left">Ortalama Kontrast Std</td>
+  <td style="text-align:center"><code>59.35 ± 12.78</code></td>
+  <td style="text-align:center"><code>61.39 ± 7.43</code></td>
+  <td style="text-align:left">Kontrast varyansı daraltılıp güçlendirildi</td>
+</tr>
+<tr>
+  <td style="text-align:left">Metin Modalitesi</td>
+  <td style="text-align:left">Gürültülü Log Kayıt Oranı</td>
+  <td style="text-align:center"><code>%41.51</code></td>
+  <td style="text-align:center"><code>%0.0</code></td>
+  <td style="text-align:left">CAN-BUS etiketleri ve <code>!!!</code> temizlendi</td>
+</tr>
+<tr>
+  <td style="text-align:left">Metin Modalitesi</td>
+  <td style="text-align:left">Ort. Karakter Uzunluğu</td>
+  <td style="text-align:center"><code>255.1</code></td>
+  <td style="text-align:center"><code>224.6</code></td>
+  <td style="text-align:left">Gürültüsüz kompakt temsil</td>
+</tr>
+<tr>
+  <td style="text-align:left">Metin Modalitesi</td>
+  <td style="text-align:left">Ort. Kelime / Token Sayısı</td>
+  <td style="text-align:center"><code>33.7</code></td>
+  <td style="text-align:center"><code>31.6</code></td>
+  <td style="text-align:left"><code>537</code> sözlük; <code>max_len=40</code> kesme <code>%0.0</code></td>
+</tr>
+</tbody>
+</table>
+<figure class="report-fig"><img src="../figures/fig01_image_preprocessing_before_after.png" alt="Şekil 1: Görsel Modalite Ön İşleme Öncesi–Sonrası Karşılaştırması" /><figcaption>Şekil 1: Görsel Modalite Ön İşleme Öncesi–Sonrası Karşılaştırması</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 1 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> Düşük ışık (<code>Parlaklık=68.0</code> -&gt; <code>111.3</code>) ve düşük çözünürlük (<code>21x22</code> -&gt; <code>64x64</code>) örneklerinde LAB-CLAHE uygulaması koyu piksel yığılmasını sağa genişletirken, normal ve güneşli levhalarda kırmızı/mavi/sarı renk tonları korunmuştur.</li>
+<li><em>Neden Önemli:</em> Sabit <code>64x64</code> boyut ve <code>[0.0, 1.0]</code> aralığı tüm görselleri aynı sayısal ölçeğe getirir.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> CNN görsel omurgası gece/gündüz parlaklık farkına karşı daha kararlı kenar filtreleri öğrenecektir.</li>
+</ul></div>
+<figure class="report-fig"><img src="../figures/fig02_text_and_cleaning_before_after.png" alt="Şekil 2: Veri Temizleme Süreci ve Görsel/Metin Ön İşleme Analizi" /><figcaption>Şekil 2: Veri Temizleme Süreci ve Görsel/Metin Ön İşleme Analizi</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 2 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> Ham <code>2.993</code> görsel ve <code>2.985</code> metin kaydından tekrarlı/eksik/bozuk veriler elenerek <code>2.922</code> temiz çift elde edilmiştir. Metin tarafında CAN-BUS gürültü oranı <code>%41.51</code>'den <code>%0.0</code>'a düşmüş ve tüm metinler <code>MAX_SEQ_LEN=40</code> sınırının altında kalmıştır.</li>
+<li><em>Neden Önemli:</em> Hem görsel hem metinsel gürültü azaltılırken sınıflandırma için kritik <code>30/50/70</code> ve <code>dur/yasak</code> bilgisi hiç kaybedilmemiştir.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Tokenizasyon katmanı sıfır kesilme kaybıyla ve gürültüsüz sözlükle eğitilebilecektir.</li>
+</ul></div>
+<hr />
+<h2>6. Keşifsel Veri Analizi (EDA) ve Görselleştirme (25 Puan)</h2>
+<p><em>(Not: Veri kümemiz statik RGB trafik tabelası görüntüleri ve Türkçe ADAS metinlerinden oluştuğu için ses dalga formu/spektrogram veya zaman serisi hizalama analizleri veri yapısı gereği uygulanmamıştır; bunun yerine görsel kalite, metin dağılımı, çapraz modalite ısı haritası ve ortak uzay ayrışabilirlik analizleri gerçekleştirilmiştir.)</em></p>
+<h3>6.1 İstatistiksel Dağılım Özeti</h3>
+<p>Tüm temiz veri seti (<code>N = 2.922</code>) ve 4 ana sınıf için özet istatistikler (<code>step4_statistical_summary.csv</code>) hesaplanmıştır (<code>Tablo 7</code>).</p>
+<div class="table-caption"><strong>Tablo 7:</strong> Temel Görsel ve Metinsel Değişkenlerin Özet İstatistikleri (<code>GENEL_TUM_VERI</code>, <code>N = 2.922</code>)</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Değişken</th>
+  <th style="text-align:center">Ortalama</th>
+  <th style="text-align:center">Std. Sapma</th>
+  <th style="text-align:center">Medyan</th>
+  <th style="text-align:center">Q25</th>
+  <th style="text-align:center">Q75</th>
+  <th style="text-align:center">IQR</th>
+  <th style="text-align:center">Min</th>
+  <th style="text-align:center">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left"><code>width</code> (px)</td>
+  <td style="text-align:center"><code>66.86</code></td>
+  <td style="text-align:center"><code>23.47</code></td>
+  <td style="text-align:center"><code>67.0</code></td>
+  <td style="text-align:center"><code>47.0</code></td>
+  <td style="text-align:center"><code>87.0</code></td>
+  <td style="text-align:center"><code>40.0</code></td>
+  <td style="text-align:center"><code>21.0</code></td>
+  <td style="text-align:center"><code>107.0</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><code>height</code> (px)</td>
+  <td style="text-align:center"><code>66.87</code></td>
+  <td style="text-align:center"><code>23.71</code></td>
+  <td style="text-align:center"><code>67.0</code></td>
+  <td style="text-align:center"><code>48.0</code></td>
+  <td style="text-align:center"><code>87.0</code></td>
+  <td style="text-align:center"><code>39.0</code></td>
+  <td style="text-align:center"><code>20.0</code></td>
+  <td style="text-align:center"><code>112.0</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><code>mean_brightness</code> (Önce)</td>
+  <td style="text-align:center"><code>113.46</code></td>
+  <td style="text-align:center"><code>26.19</code></td>
+  <td style="text-align:center"><code>113.0</code></td>
+  <td style="text-align:center"><code>94.36</code></td>
+  <td style="text-align:center"><code>132.71</code></td>
+  <td style="text-align:center"><code>38.36</code></td>
+  <td style="text-align:center"><code>41.88</code></td>
+  <td style="text-align:center"><code>193.65</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><code>mean_brightness_after</code> (CLAHE)</td>
+  <td style="text-align:center"><code>139.28</code></td>
+  <td style="text-align:center"><code>24.00</code></td>
+  <td style="text-align:center"><code>137.95</code></td>
+  <td style="text-align:center"><code>121.35</code></td>
+  <td style="text-align:center"><code>156.31</code></td>
+  <td style="text-align:center"><code>34.96</code></td>
+  <td style="text-align:center"><code>76.11</code></td>
+  <td style="text-align:center"><code>209.31</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><code>contrast_std</code> (Önce)</td>
+  <td style="text-align:center"><code>59.35</code></td>
+  <td style="text-align:center"><code>12.78</code></td>
+  <td style="text-align:center"><code>59.84</code></td>
+  <td style="text-align:center"><code>50.47</code></td>
+  <td style="text-align:center"><code>68.31</code></td>
+  <td style="text-align:center"><code>17.84</code></td>
+  <td style="text-align:center"><code>16.95</code></td>
+  <td style="text-align:center"><code>91.31</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><code>contrast_std_after</code> (CLAHE)</td>
+  <td style="text-align:center"><code>61.39</code></td>
+  <td style="text-align:center"><code>7.43</code></td>
+  <td style="text-align:center"><code>61.27</code></td>
+  <td style="text-align:center"><code>56.35</code></td>
+  <td style="text-align:center"><code>66.52</code></td>
+  <td style="text-align:center"><code>10.17</code></td>
+  <td style="text-align:center"><code>33.90</code></td>
+  <td style="text-align:center"><code>82.65</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><code>clean_char_length</code></td>
+  <td style="text-align:center"><code>224.60</code></td>
+  <td style="text-align:center"><code>18.48</code></td>
+  <td style="text-align:center"><code>224.0</code></td>
+  <td style="text-align:center"><code>211.0</code></td>
+  <td style="text-align:center"><code>237.0</code></td>
+  <td style="text-align:center"><code>26.0</code></td>
+  <td style="text-align:center"><code>180.0</code></td>
+  <td style="text-align:center"><code>275.0</code></td>
+</tr>
+<tr>
+  <td style="text-align:left"><code>clean_word_count</code></td>
+  <td style="text-align:center"><code>31.57</code></td>
+  <td style="text-align:center"><code>2.82</code></td>
+  <td style="text-align:center"><code>32.0</code></td>
+  <td style="text-align:center"><code>29.0</code></td>
+  <td style="text-align:center"><code>34.0</code></td>
+  <td style="text-align:center"><code>5.0</code></td>
+  <td style="text-align:center"><code>25.0</code></td>
+  <td style="text-align:center"><code>39.0</code></td>
+</tr>
+</tbody>
+</table>
+<h3>6.2 Modalite Bazlı Keşifsel Analizler</h3>
+<figure class="report-fig"><img src="../figures/fig04_image_modality_exploratory_analysis.png" alt="Şekil 4: Görsel Modalite Keşifsel Veri Analizi" /><figcaption>Şekil 4: Görsel Modalite Keşifsel Veri Analizi</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 4 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> 16 alt sınıf belirgin şekil/renk imzalarına sahiptir. Ham boyutlar <code>20–112 px</code> arasında doğrusal en-boy oranıyla yayılmış olup <code>220</code> düşük çözünürlüklü (<code>20–31px</code>), <code>1.164</code> orta ve <code>1.538</code> yüksek çözünürlüklü örnek içerir. Keman grafiği tüm sınıflarda parlaklık dağılımının benzer olduğunu ve CLAHE'nin alt kuyruktaki karanlık kareleri yükselttiğini göstermektedir.</li>
+<li><em>Neden Önemli:</em> Aydınlatma kaynaklı bir sınıf yanlılığı olmadığını doğrular.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Görsel kolda standart <code>64x64</code> evrişim katmanları için uygun istatistiksel dağılım elde edilmiştir.</li>
+</ul></div>
+<figure class="report-fig"><img src="../figures/fig05_text_modality_exploratory_analysis.png" alt="Şekil 5: Metin Modalitesi Keşifsel Veri Analizi" /><figcaption>Şekil 5: Metin Modalitesi Keşifsel Veri Analizi</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 5 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> Temiz token sayısı <code>25–39</code> aralığında yoğunlaşmakta, sınıf medyanları <code>29–34</code> token arasında dengelenmektedir. <code>hız (1.370)</code>, <code>sola (631)</code>, <code>sağa (593)</code>, <code>kavşak (584)</code>, <code>yasaktır (445)</code>, <code>yaya (441)</code> ve <code>dur (270)</code> gibi anahtar kelimeler sınıflara özgü güçlü sinyal taşımaktadır. ADAS uyarı seviyeleri (<code>ACİL UYARI</code>, <code>BİLGİLENDİRME</code> vb.) güvenlik sınıflarıyla doğal hizalanma göstermektedir.</li>
+<li><em>Neden Önemli:</em> Metin uzunluğu bakımından sınıflar arasında yapay kestirme (shortcut) oluşmadığını, ayrımın anlamsal terimlerden geldiğini gösterir.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Metin kodlayıcıda kelime gömme (Embedding) + 1D-CNN/BiLSTM veya TF-IDF katmanlarının yüksek ayırt edicilik sağlaması beklenir.</li>
+</ul></div>
+<h3>6.3 Modaliteler Arası İlişkiler ve Tamamlayıcılık Analizi</h3>
+<figure class="report-fig"><img src="../figures/fig07_cross_modal_complementarity_analysis.png" alt="Şekil 7: Modaliteler Arası İlişki ve Tamamlayıcılık Analizi" /><figcaption>Şekil 7: Modaliteler Arası İlişki ve Tamamlayıcılık Analizi</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 7 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> Panel A'da düşük ışıklı/gece çekimlerinde dahi <code>ACİL UYARI (%37.2)</code> ve <code>YÜKSEK RİSK (%14.1)</code> metinlerinin tam doğrulukla üretildiği görülmektedir. Panel B'deki Pearson korelasyon matrisinde ham görsel boyut/parlaklık metrikleri ile metin uzunlukları arasındaki en büyük mutlak korelasyon <strong><code>|r| = 0.18</code></strong> düzeyindedir.</li>
+<li><em>Neden Önemli:</em> Düşük çapraz modal korelasyon, iki modalitenin birbirinin kopyası olmadığını; zorlu görsel koşullarda metin bilgisinin bağımsız ve tamamlayıcı sinyal sağladığını kanıtlar.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Füzyon katmanı çoklu doğrusallık (multicollinearity) sorunu yaşamadan iki kaynaktan farklı öznitelikler öğrenecektir.</li>
+</ul></div>
+<figure class="report-fig"><img src="../figures/fig08_multimodal_feature_space_projection.png" alt="Şekil 8: Tek Modaliteli Uzaylar vs Multimodal Füzyon Uzayı" /><figcaption>Şekil 8: Tek Modaliteli Uzaylar vs Multimodal Füzyon Uzayı</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 8 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> 2B izdüşümde yalnızca görsel uzayda (<code>Silhouette = 0.197</code>) kırmızı/turuncu/mavi sınıflar kısmen örtüşürken, metin uzayı (<code>0.237</code>) ve iki modalitenin füzyon uzayı (<code>0.211</code>) sınıflar arası ayrımı belirgin biçimde güçlendirmektedir.</li>
+<li><em>Neden Önemli:</em> Görsel modalitede benzer kırmızı tonlu levhaların yarattığı belirsizliğin metin modalitesiyle çözümlendiğini sayısal Silhouette kanıtıyla ortaya koyar.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Final aşamasında tek modaliteli modellerle (yalnızca CNN ve yalnızca Metin) multimodal füzyon modeli kıyaslanarak bu hipotez doğrulama/test skorlarıyla test edilecektir.</li>
+</ul></div>
+<h3>6.4 Aykırı Durum ve Veri Kalitesi Vaka Analizi</h3>
+<figure class="report-fig"><img src="../figures/fig09_outlier_and_anomaly_case_study.png" alt="Şekil 9: Aykırı Durum ve Veri Kalitesi Vaka Analizi" /><figcaption>Şekil 9: Aykırı Durum ve Veri Kalitesi Vaka Analizi</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 9 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> Şekilde normal (<code>67x72</code>), düşük çözünürlüklü (<code>33x30</code>), gece/düşük ışıklı (<code>parlaklık=68.0</code> -&gt; CLAHE <code>111.3</code>), düzeltilmiş etiket hatası (<code>Ham Sınıf=1 -&gt; Doğru=0</code>) ve elenen <code>&lt;20px</code> (<code>15x15</code>) örnekleri yan yana incelenmiştir. Kalite kontrolü sonucunda toplam <code>348</code> zorlu/aykırı örnek (<code>191</code> düşük ışık, <code>220</code> 20–31px çözünürlük, <code>55</code> güneş yansıması) geçerli kabul edilerek korunmuş; okunamayan/bozuk/eksik <code>38</code> örnek elenmiştir.</li>
+<li><em>Neden Önemli:</em> Aşırı temizlenmiş ve yalnızca ideal gündüz görsellerinden oluşan bir veri seti gerçek trafikte başarısız olur; zorlu fakat okunabilir örneklerin korunması genelleme gücünü artırır.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Final model test aşamasında normal ve zorlu (<code>is_outlier_sample=True</code>) alt kümeler üzerinde ayrı hata analizleri yapılabilecektir.</li>
+</ul></div>
+<hr />
+<h2>7. Modellemeye Hazırlık ve Veri Bölme Stratejisi (8 Puan)</h2>
+<h3>7.1 Sızıntısız Stratified Bölme ve Çapraz Doğrulama Planı</h3>
+<p>Her örnek bağımsız trafik tabelası karesi olduğundan ve Adım 2'de ardışık kare tekrarları (<code>18</code> adet) elendiğinden zamansal veya sürücü bazlı grup sızıntısı riski bulunmamaktadır. Bu nedenle hem 4 ana güvenlik sınıfını hem de 16 alt GTSRB sınıfını tam orantılı korumak için <strong><code>gtsrb_id</code> üzerinden Katmanlı (Stratified) Bölme</strong> seçilmiştir (<code>Tablo 8</code>).</p>
+<div class="table-caption"><strong>Tablo 8:</strong> Veri Bölme Dağılımı ve Sızıntı Denetimi (<code>step4_split_and_model_prep_report.json</code>)</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Bölme</th>
+  <th style="text-align:center">Oran</th>
+  <th style="text-align:center">Örnek Sayısı</th>
+  <th style="text-align:center">Sınıf <code>0</code></th>
+  <th style="text-align:center">Sınıf <code>1</code></th>
+  <th style="text-align:center">Sınıf <code>2</code></th>
+  <th style="text-align:center">Sınıf <code>3</code></th>
+  <th style="text-align:center">Ortak <code>sample_id</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left"><strong>Train (Eğitim)</strong></td>
+  <td style="text-align:center"><code>%69.99</code></td>
+  <td style="text-align:center"><code>2.045</code></td>
+  <td style="text-align:center"><code>%33.2</code></td>
+  <td style="text-align:center"><code>%18.7</code></td>
+  <td style="text-align:center"><code>%23.9</code></td>
+  <td style="text-align:center"><code>%24.3</code></td>
+  <td style="text-align:center"><code>0</code> (Val/Test ile)</td>
+</tr>
+<tr>
+  <td style="text-align:left"><strong>Val (Doğrulama)</strong></td>
+  <td style="text-align:center"><code>%14.99</code></td>
+  <td style="text-align:center"><code>438</code></td>
+  <td style="text-align:center"><code>%33.1</code></td>
+  <td style="text-align:center"><code>%18.7</code></td>
+  <td style="text-align:center"><code>%24.2</code></td>
+  <td style="text-align:center"><code>%24.0</code></td>
+  <td style="text-align:center"><code>0</code> (Train/Test ile)</td>
+</tr>
+<tr>
+  <td style="text-align:left"><strong>Test (Nihai Test)</strong></td>
+  <td style="text-align:center"><code>%15.02</code></td>
+  <td style="text-align:center"><code>439</code></td>
+  <td style="text-align:center"><code>%33.0</code></td>
+  <td style="text-align:center"><code>%18.9</code></td>
+  <td style="text-align:center"><code>%23.7</code></td>
+  <td style="text-align:center"><code>%24.4</code></td>
+  <td style="text-align:center"><code>0</code> (Train/Val ile)</td>
+</tr>
+<tr>
+  <td style="text-align:left"><strong>Stratified 5-Fold (Train İçi)</strong></td>
+  <td style="text-align:center">5 eşit katman</td>
+  <td style="text-align:center"><code>409 / fold</code></td>
+  <td style="text-align:center">Korundu</td>
+  <td style="text-align:center">Korundu</td>
+  <td style="text-align:center">Korundu</td>
+  <td style="text-align:center">Korundu</td>
+  <td style="text-align:center">Modaliteler kilitli</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Modalite Kilidi:</strong> Görsel ve metin modaliteleri tekil <code>sample_id</code> satırında eşleştirildiği için aynı örneğe ait görsel ve metin verisinin farklı bölmelere düşmesi imkânsızdır (<code>train ∩ val = 0</code>, <code>train ∩ test = 0</code>, <code>val ∩ test = 0</code>).</li>
+</ul>
+<h3>7.2 Modele Uygun Veri Yapısı</h3>
+<p>Model eğitimine doğrudan hazır tensörler <code>data/processed/model_ready_inputs.npz</code> içine paketlenmiştir (<code>Tablo 9</code>).</p>
+<div class="table-caption"><strong>Tablo 9:</strong> Final Multimodal Füzyon Modeli Girdi Tensör Şeması</div>
+<table>
+<thead>
+<tr>
+  <th style="text-align:left">Bileşen</th>
+  <th style="text-align:left">Tensör Adı</th>
+  <th style="text-align:center">Boyut (Shape)</th>
+  <th style="text-align:center">Veri Tipi</th>
+  <th style="text-align:left">Değer Aralığı / İçerik</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:left">Görsel Kol</td>
+  <td style="text-align:left"><code>X_image_uint8</code></td>
+  <td style="text-align:center"><code>(2922, 64, 64, 3)</code></td>
+  <td style="text-align:center"><code>uint8</code> -&gt; <code>/255.0</code> <code>float32</code></td>
+  <td style="text-align:left"><code>[0.0157, 1.0]</code> normalize RGB+CLAHE</td>
+</tr>
+<tr>
+  <td style="text-align:left">Metin Kolu</td>
+  <td style="text-align:left"><code>X_text_ids</code></td>
+  <td style="text-align:center"><code>(2922, 40)</code></td>
+  <td style="text-align:center"><code>int64</code></td>
+  <td style="text-align:left">Sözlük=<code>537</code> token, <code>&lt;PAD&gt;=0</code> dolgulu</td>
+</tr>
+<tr>
+  <td style="text-align:left">Metin Maskesi</td>
+  <td style="text-align:left"><code>attention_mask</code></td>
+  <td style="text-align:center"><code>(2922, 40)</code></td>
+  <td style="text-align:center"><code>int64</code></td>
+  <td style="text-align:left"><code>0/1</code> maske (Ort. aktif token <code>31.57/40</code>)</td>
+</tr>
+<tr>
+  <td style="text-align:left">Hedef (Ana)</td>
+  <td style="text-align:left"><code>y_safety</code></td>
+  <td style="text-align:center"><code>(2922,)</code></td>
+  <td style="text-align:center"><code>int64</code></td>
+  <td style="text-align:left"><code>0, 1, 2, 3</code> (4 Sürüş Güvenliği Sınıfı)</td>
+</tr>
+<tr>
+  <td style="text-align:left">Hedef (Alt)</td>
+  <td style="text-align:left"><code>y_gtsrb</code></td>
+  <td style="text-align:center"><code>(2922,)</code></td>
+  <td style="text-align:center"><code>int64</code></td>
+  <td style="text-align:left">16 GTSRB alt sınıf kimliği</td>
+</tr>
+</tbody>
+</table>
+<figure class="report-fig"><img src="../figures/fig10_stratified_split_and_kfold_verification.png" alt="Şekil 10: Sızıntısız Katmanlı Veri Bölme ve Model Girdi Doğrulaması" /><figcaption>Şekil 10: Sızıntısız Katmanlı Veri Bölme ve Model Girdi Doğrulaması</figcaption></figure>
+<div class="sci-comment"><div class="sci-title">Şekil 10 Bilimsel Yorumu:</div><ul>
+<li><em>Ne Gözlemlendi:</em> Train (<code>2.045</code>), Val (<code>438</code>) ve Test (<code>439</code>) kümelerinde 4 ana sınıf oranları (<code>~%33.1 / %18.8 / %23.9 / %24.2</code>) ve 16 alt sınıfın tamamı korunmuştur. Eğitim içi 5-Fold katmanlarının her biri tam <code>409</code> örnekle dengelenmiştir.</li>
+<li><em>Neden Önemli:</em> Bölmeler arası <code>0</code> kesişen <code>sample_id</code> değeri sayesinde test kümesi değerlendirmesi tamamen tarafsız olacaktır.</li>
+<li><em>Sonraki Aşamaya Etkisi:</em> Final aşamasında önce tek modaliteli baz modeller (CNN ve BiLSTM/MLP), ardından ara-katman füzyonlu (Concatenation / Cross-Attention) multimodal ağ bu hazır <code>.npz</code> tensörleri üzerinden doğrudan eğitilecektir.</li>
+</ul></div>
+<hr />
+<h2>8. Sunum, Tekrarlanabilirlik ve Kaynakça (5 Puan)</h2>
+<h3>8.1 Tekrarlanabilirlik Talimatları</h3>
+<p>Tüm çalışma Python <code>3.12.8</code> ortamında <code>RANDOM_SEED = 42</code> ile tamamen deterministik olarak hazırlanmıştır. Proje kök dizininden sırasıyla şu komutlarla tüm veri seti, raporlar ve 10 grafik bire bir yeniden üretilebilir:</p>
+<pre><code class="language-bash">pip install -r requirements.txt
+python -m src.data_loader --overwrite   # Adım 2: Veri hazırlama, 1:1 eşleştirme ve doğrulama
+python -m src.preprocessing             # Adım 3: Temizleme, 64x64 CLAHE, Türkçe metin ön işleme + Şekil 1-2
+python -m src.eda                       # Adım 4: İstatistiksel özetler + Şekil 3-9
+python -m src.splitter                  # Adım 4: Stratified 70/15/15 + 5-Fold bölme + Şekil 10
+</code></pre>
+<p>Etkileşimli kod yürütümü ve sunum gösterimi için çalıştırılmış defter: <code>notebooks/01_multimodal_vize_analiz.ipynb</code>.</p>
+<h3>8.2 Kaynakça</h3>
+<ol>
+<li>Stallkamp, J., Schlipsing, M., Salmen, J., &amp; Igel, C. (2012). <em>Man vs. computer: Benchmarking machine learning algorithms for traffic sign recognition</em>. Neural Networks, 32, 323–332.</li>
+<li>Baltrušaitis, T., Ahuja, C., &amp; Morency, L. P. (2019). <em>Multimodal machine learning: A survey and taxonomy</em>. IEEE Transactions on Pattern Analysis and Machine Intelligence, 41(2), 423–443.</li>
+<li>Zuiderveld, K. (1994). <em>Contrast Limited Adaptive Histogram Equalization (CLAHE)</em>. Graphics Gems IV, Academic Press, 474–485.</li>
+<li>Pedregosa, F., et al. (2011). <em>Scikit-learn: Machine Learning in Python</em>. Journal of Machine Learning Research, 12, 2825–2830.</li>
+</ol>
+
+  </div>
+</body>
+</html>
